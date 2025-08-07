@@ -12,6 +12,6 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint = "https://10.0.3.10:8006/"
+  endpoint = var.proxmox.url
   insecure = true # Only needed if your Proxmox server is using a self-signed certificate
 }
