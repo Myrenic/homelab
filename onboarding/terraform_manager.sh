@@ -45,19 +45,17 @@ else
 fi
 
 echo "Select action:"
-select action in apply destroy; do
+select action in create destroy import_config delete_config; do
   case "$action" in
-    apply)
-      terraform -chdir=../terraform/talos-k3s-cluster/ init
-      terraform -chdir=../terraform/talos-k3s-cluster/ apply
+    import_config)
       terraform output -raw kubeconfig > ~/.kube/config
       terraform output -raw talosconfig > ~/.talos/config
       export KUBECONFIG=~/.kube/config
       export TALOSCONFIG=~/.talos/config
+      echo "Imported Kubeconfig"
       break
       ;;
-    destroy)
-      terraform -chdir=../terraform/talos-k3s-cluster/ destroy
+    delete_config)
       # Remove kubeconfig and talosconfig files
       rm -f ~/.kube/config
       rm -f ~/.talos/config
@@ -67,6 +65,15 @@ select action in apply destroy; do
       unset TALOSCONFIG
 
       echo "Kubeconfig and Talosconfig cleared, environment variables unset."
+      break
+      ;;
+    create)
+      terraform -chdir=../terraform/talos-k3s-cluster/ init --upgrade 
+      terraform -chdir=../terraform/talos-k3s-cluster/ apply -auto-approve
+      break
+      ;;
+    destroy)
+      terraform -chdir=../terraform/talos-k3s-cluster/ destroy -auto-approve
       break
       ;;
     *)
