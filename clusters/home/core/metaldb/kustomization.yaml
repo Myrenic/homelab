@@ -1,0 +1,3 @@
+resources:
+- metaldb.yaml
+- metaldb-native.yaml
