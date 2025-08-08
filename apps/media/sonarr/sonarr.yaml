@@ -50,19 +50,6 @@ spec:
           value: "1000"
         - name: PGID
           value: "1000"
-      volumes:
-      - name: sonarr-config
-        persistentVolumeClaim:
-          claimName: sonarr-data-pvc
-      - name: downloads
-        hostPath:
-          path: /path/to/downloads
-          type: Directory
-      - name: tv-shows
-        hostPath:
-          path: /path/to/tv
-          type: Directory
-
 ---
 apiVersion: v1
 kind: Service
