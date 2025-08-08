@@ -1,0 +1,23 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Terraform Validation
+        uses: tf-actions/validate@v1.0.0
+        with:
+          init: true
+          strict_mode: false
+          working_directory: ./terraform/talos-k3s-cluster
