@@ -45,6 +45,7 @@ resource "proxmox_virtual_environment_vm" "vm" {
 
   network_device {
     bridge = each.value.network_bridge
+    vlan_id = each.value.vlan_id
   }
 
   disk {

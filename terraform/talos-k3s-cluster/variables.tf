@@ -9,6 +9,7 @@ variable "hosts" {
     node_name               = string
     network_bridge          = string
     datastore_id            = string
+    vlan_id                 = number
     disk_size               = number
   }))
 }
