@@ -46,7 +46,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: "./clusters/home/core-systems/"
+  path: "./clusters/home/core-systems"
   prune: true
   sourceRef:
     kind: GitRepository
