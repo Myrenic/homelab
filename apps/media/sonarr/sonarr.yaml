@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: sonarr
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -38,18 +37,12 @@ spec:
         image: linuxserver/sonarr:latest
         ports:
         - containerPort: 8989
-        volumeMounts:
-        - name: sonarr-config
-          mountPath: /config
-        - name: downloads
-          mountPath: /downloads
-        - name: tv-shows
-          mountPath: /tv
         env:
         - name: PUID
           value: "1000"
         - name: PGID
           value: "1000"
+
 ---
 apiVersion: v1
 kind: Service
