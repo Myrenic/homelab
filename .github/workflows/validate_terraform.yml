@@ -1,39 +1,19 @@
-name: 'Terraform'
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-
-permissions:
-  contents: read
-  pull-requests: write
+on: [push]
 
 jobs:
-  terraform:
+  validate:
     runs-on: ubuntu-latest
+    name: Validate Terraform module
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - name: terraform validate
+        uses: dflook/terraform-validate@v2
+        id: validate
         with:
-          terraform_wrapper: false
+          path: ./terraform/talos-k3s-cluster
 
-      - name: Validate Configuration (with PR comments if allowed)
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        uses: tf-actions/validate@v1.0.0
-        with:
-          working_directory: ./terraform/talos-k3s-cluster
-          init: true
-          strict_mode: false
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Validate Configuration (skip PR comments for forks)
-        if: github.event.pull_request.head.repo.full_name != github.repository
-        uses: tf-actions/validate@v1.0.0
-        with:
-          working_directory: ./terraform/talos-k3s-cluster
-          init: true
-          strict_mode: false
+      - name: Validate failed
+        if: ${{ failure() && steps.validate.outputs.failure-reason == 'validate-failed' }}
+        run: echo "terraform validate failed"
