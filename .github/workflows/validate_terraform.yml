@@ -1,0 +1,34 @@
+on: [push]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: ${{ fromJSON(needs.get-dirs.outputs.matrix) }}
+    name: Validate Terraform - ${{ matrix.dir }}
+    needs: get-dirs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: terraform validate
+        uses: dflook/terraform-validate@v2
+        id: validate
+        with:
+          path: ./terraform/${{ matrix.dir }}
+
+      - name: Validate failed
+        if: ${{ failure() && steps.validate.outputs.failure-reason == 'validate-failed' }}
+        run: echo "terraform validate failed"
+
+  get-dirs:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set-matrix
+        run: |
+          dirs=$(find terraform -maxdepth 1 -mindepth 1 -type d -exec basename {} \;)
+          echo "matrix=$(jq -nc --argjson arr "$(printf '%s\n' $dirs | jq -R . | jq -s .)" '$arr')" >> $GITHUB_OUTPUT
