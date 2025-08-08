@@ -26,7 +26,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./core
+  path: .\clusters\home\core
   prune: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -39,5 +39,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ../../../apps
+  path: ./apps
   prune: true
