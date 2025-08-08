@@ -1,6 +1,6 @@
 hosts = {
     k8s_control_01 = {
-      name    = "k8s_control_01"
+      name    = "k8s-control-01"
       cores   = 6
       memory  = 8096
       ip_addr = "10.0.69.60"
@@ -13,7 +13,7 @@ hosts = {
       disk_size = 128
     }
     k8s_worker_02 = {
-      name    = "k8s_worker_02"
+      name    = "k8s-worker-02"
       cores   = 6
       memory  = 8096
       ip_addr = "10.0.69.61"
