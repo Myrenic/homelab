@@ -1,0 +1,18 @@
+# kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.4/config/manifests/metallb-native.yaml
+# kubectl get pods -n metallb-system
+# kubectl apply -f metallb-config.yaml
+
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: homelab-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 10.0.3.245-10.0.3.250  # Adjust to your LAN
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2
+  namespace: metallb-system

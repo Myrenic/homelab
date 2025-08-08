@@ -85,7 +85,7 @@ talos = {
     version                  = "v1.10.6"
     control_plane_identifier = "control"
     worker_identifier        = "worker"
-    img_id                   = "aeec243e3a4c2a14f9ba74b1a8c7662f03eea658a7ea5f1c26fdd491280c88f8"
+    img_id                   = "ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515"
 }
 
 
