@@ -5,15 +5,15 @@ metadata:
   name: podinfo
   namespace: flux-system
 spec:
-  interval: 30m0s
-  path: ./kustomize
+  interval: 30m
+  path: ./apps/media/sonarr
   prune: true
-  retryInterval: 2m0s
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
-    name: podinfo
+    name: flux-system
   targetNamespace: default
-  timeout: 3m0s
+  timeout: 3m
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -26,7 +26,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: clusters/home/core
+  path: ./clusters/home/core
   prune: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -39,5 +39,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: apps
+  path: ./apps
   prune: true
