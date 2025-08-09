@@ -65,13 +65,13 @@ metadata:
   name: radarr
   namespace: radarr
   annotations:
+    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
 spec:
-  ingressClassName: traefik
   rules:
-  - host: radarr.kube.tuntelder.com  
+  - host: radarr.tuntelder.com
     http:
       paths:
       - path: /

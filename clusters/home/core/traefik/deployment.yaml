@@ -79,7 +79,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
 spec:
   rules:
-  - host: kube.tuntelder.com
+  - host: traefik.tuntelder.com
     http:
       paths:
       - path: /
