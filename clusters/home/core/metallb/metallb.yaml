@@ -5,7 +5,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - 10.0.69.200-10.0.69.250  # Adjust to your LAN
+    - 10.0.69.200-10.0.69.205
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement

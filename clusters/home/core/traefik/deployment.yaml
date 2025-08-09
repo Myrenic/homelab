@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: traefik-acme-pvc
+  namespace: traefik
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,15 +29,21 @@ spec:
       - name: traefik
         image: traefik:v2.10
         env:
-        - name: CF_API_TOKEN
+        - name: CF_DNS_API_TOKEN
           valueFrom:
             secretKeyRef:
               name: cloudflare-api-token-secret
-              key: CF_API_TOKEN
+              key: CF_DNS_API_TOKEN
+        - name: CF_API_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: cloudflare-mail-secret
+              key: CF_API_EMAIL
         args:
         - --api.dashboard=true
-        - --api.insecure=true
         - --entrypoints.web.address=:80
+        - --entrypoints.web.http.redirections.entrypoint.to=websecure
+        - --entrypoints.web.http.redirections.entrypoint.scheme=https
         - --entrypoints.websecure.address=:443
         - --providers.kubernetesingress.ingressclass=traefik
         - --certificatesresolvers.letsencrypt.acme.email=38107502+Myrenic@users.noreply.github.com
@@ -51,7 +69,8 @@ spec:
           mountPath: /data
       volumes:
       - name: acme-storage
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: traefik-acme-pvc
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -60,9 +79,12 @@ metadata:
   namespace: traefik
   annotations:
     kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
 spec:
   rules:
-  - host: traefik.kube.tuntelder.com
+  - host: kube.tuntelder.com
     http:
       paths:
       - path: /
@@ -72,3 +94,7 @@ spec:
             name: traefik
             port:
               number: 8080
+  tls:
+  - hosts:
+    - traefik.kube.tuntelder.com
+    secretName: traefik-dashboard-tls

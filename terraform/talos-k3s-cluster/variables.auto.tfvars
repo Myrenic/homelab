@@ -25,6 +25,32 @@ hosts = {
       datastore_id = "ssd"
       disk_size = 128
     }
+    k8s_worker_03 = {
+      name    = "k8s-worker-03"
+      cores   = 3
+      memory  = 4096
+      ip_addr = "10.0.69.62"
+      gateway = "10.0.69.1"
+      cidr    = "/24"
+      node_name = "proxmox"
+      network_bridge = "vmbr0"
+      vlan_id = 69
+      datastore_id = "ssd"
+      disk_size = 50
+    }
+    k8s_worker_04 = {
+      name    = "k8s-worker-04"
+      cores   = 3
+      memory  = 4096
+      ip_addr = "10.0.69.63"
+      gateway = "10.0.69.1"
+      cidr    = "/24"
+      node_name = "proxmox"
+      network_bridge = "vmbr0"
+      vlan_id = 69
+      datastore_id = "ssd"
+      disk_size = 50
+    }
 }
 proxmox = {
     url                     = "https://10.0.3.10:8006/"
