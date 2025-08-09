@@ -17,4 +17,4 @@ resources:
   - deployment.yaml
   - service.yaml
   - roles.yaml
-  
+  - cloudflare-secret.enc.yaml

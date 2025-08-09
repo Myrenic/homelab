@@ -29,16 +29,11 @@ spec:
       - name: traefik
         image: traefik:v2.10
         env:
-        - name: CF_DNS_API_TOKEN
+        - name: CLOUDFLARE_DNS_API_TOKEN
           valueFrom:
             secretKeyRef:
               name: cloudflare-api-token-secret
-              key: CF_DNS_API_TOKEN
-        - name: CF_API_EMAIL
-          valueFrom:
-            secretKeyRef:
-              name: cloudflare-mail-secret
-              key: CF_API_EMAIL
+              key: CLOUDFLARE_DNS_API_TOKEN
         args:
         - --api.dashboard=true
         - --entrypoints.web.address=:80

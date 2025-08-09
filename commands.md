@@ -36,3 +36,14 @@ flux get kustomizations --watch
 # remove
 flux uninstall --namespace flux-system
 kubectl delete namespace flux-system
+
+
+set -euo pipefail
+wget https://github.com/getsops/sops/releases/download/v3.8.1/sops_3.8.1_amd64.deb          
+echo ' 535bce529e2df7368ffba3fed2b427b9f964318fa28959d913924a70ba01c086  sops_3.8.1_amd64.deb' > sops_3.8.1_amd64.deb.sig
+sha256sum -c sops_3.8.1_amd64.deb.sig
+dpkg -i sops_3.8.1_amd64.deb 
+
+
+kubectl -n flux-system create secret generic sops-age \
+  --from-file=age.agekey=./keys.txt
