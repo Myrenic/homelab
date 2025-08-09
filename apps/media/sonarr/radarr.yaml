@@ -71,7 +71,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
 spec:
   rules:
-  - host: radarr.tuntelder.com
+  - host: radarr.kube.tuntelder.com
     http:
       paths:
       - path: /
