@@ -92,4 +92,3 @@ spec:
   tls:
   - hosts:
     - traefik.kube.tuntelder.com
-    secretName: traefik-dashboard-tls
