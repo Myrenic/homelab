@@ -50,10 +50,30 @@ metadata:
   name: sonarr-lb
   namespace: sonarr
 spec:
-  type: LoadBalancer
-  selector:
-    app: sonarr
-  ports:
-    - protocol: TCP
-      port: 8989
-      targetPort: 8989
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarr
+  namespace: sonarr
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: sonarr.kube.tuntelder.com   # <-- Your domain here
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sonarr-lb
+            port:
+              number: 8989
+  tls:
+  - hosts:
+    - sonarr.kube.tuntelder.com
